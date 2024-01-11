@@ -1,95 +1,88 @@
-import Image from 'next/image'
-import styles from './page.module.css'
+"use client";
+import { useEffect, useState } from "react";
+import SearchBar from "../Components/SearchBar";
+import WeatherData from "../Components/WeatherData";
+import Wind from "../Components/Wind";
+import Humidity from "../Components/Humidity";
+import WeatherImage from "../Components/WeatherImage";
+import WeatherDescription from "../Components/WeatherDescription";
 
-export default function Home() {
-  return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  )
+interface WeatherData {
+  main: {
+    temp: number;
+    humidity: number;
+  };
+  name: string;
+  wind: {
+    speed: number;
+  };
+  weather: {
+    icon: string;
+    description: string;
+  }[];
 }
+
+function App() {
+  const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
+  const [city, setCity] = useState("London");
+
+  const search = async (searchCity?: string) => {
+    try {
+      const apiUrl = `../api/page?city=${searchCity || city}`;
+      console.log("API URL:", apiUrl);
+
+      const response = await fetch(apiUrl);
+      console.log("Response status:", response.status);
+
+      if (!response.ok) {
+        console.error("Failed to fetch data:", response.statusText);
+        return;
+      }
+
+      const data = await response.json();
+      console.log("Response from OpenWeatherMap:", data);
+      setWeatherData(data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  useEffect(() => {
+    search();
+  }, []);
+  return (
+    <div className="Container">
+      <SearchBar
+        search={(searchCity?: string) => search(searchCity)}
+        city={city}
+        setCity={setCity}
+      />
+
+      {weatherData && weatherData.main && weatherData.wind && (
+        <>
+          <WeatherData
+            temperature={Math.round(weatherData.main.temp)}
+            location={weatherData.name}
+          />
+
+          <div className="weather-image">
+            <WeatherImage iconCode={weatherData?.weather[0].icon} />
+          </div>
+
+          <div className="description">
+            <WeatherDescription
+              description={weatherData.weather[0].description}
+            />
+          </div>
+
+          <div className="elements">
+            <Wind windSpeed={weatherData.wind.speed} />
+            <Humidity humidity={weatherData.main.humidity} />
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
+
+export default App;
