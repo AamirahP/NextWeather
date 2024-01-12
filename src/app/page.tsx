@@ -28,7 +28,8 @@ function App() {
 
   const search = async (searchCity?: string) => {
     try {
-      const apiUrl = `../api/page?city=${searchCity || city}`;
+      const apiUrl = `/api/page?city=${encodeURIComponent(searchCity || city)}`;
+
       console.log("API URL:", apiUrl);
 
       const response = await fetch(apiUrl);
@@ -50,6 +51,7 @@ function App() {
   useEffect(() => {
     search();
   }, []);
+
   return (
     <div className="Container">
       <SearchBar
