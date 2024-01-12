@@ -10,7 +10,10 @@ import WeatherDescription from "../Components/WeatherDescription";
 interface WeatherData {
   main: {
     temp: number;
+    feels_like: number;
     humidity: number;
+    temp_max: number;
+    temp_min: number;
   };
   name: string;
   wind: {
@@ -20,6 +23,10 @@ interface WeatherData {
     icon: string;
     description: string;
   }[];
+  sys: {
+    sunrise: number;
+    sunset: number;
+  };
 }
 
 function App() {
@@ -66,6 +73,14 @@ function App() {
             temperature={Math.round(weatherData.main.temp)}
             location={weatherData.name}
           />
+          <p className="info">
+            <a href="http://localhost:3000/info">
+              {" "}
+              Click for more info {">"}
+              {">"}
+              {">"}
+            </a>
+          </p>
 
           <div className="weather-image">
             <WeatherImage iconCode={weatherData?.weather[0].icon} />

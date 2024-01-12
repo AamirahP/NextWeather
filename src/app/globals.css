@@ -98,3 +98,10 @@ background-image: linear-gradient(180deg, #395da1 0%, #8b80cc 100%);}
   margin-top: 10px; 
   font-size: 34px;
 }
+
+.info {
+  display:flex;
+  justify-content: center;
+  align-items: center;
+
+}
