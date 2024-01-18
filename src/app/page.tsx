@@ -64,6 +64,7 @@ function App() {
 
       const data = await response.json();
       console.log("Response from OpenWeatherMap:", data);
+      localStorage.setItem("weatherData", JSON.stringify(data));
 
       setWeatherData(data);
     } catch (error) {

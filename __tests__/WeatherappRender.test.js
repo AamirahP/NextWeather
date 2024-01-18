@@ -4,7 +4,7 @@
 
 import React from 'react';
 import { render, screen, fireEvent} from '@testing-library/react';
-import App from '../src/App';
+import App from '../src/app/page';
 import fetchMock from 'jest-fetch-mock';
 
 describe('WeatherApp component rendering', () => {

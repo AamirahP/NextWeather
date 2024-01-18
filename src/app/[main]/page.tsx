@@ -33,7 +33,7 @@ const Page = () => {
           minTemp={weatherData.minTemp}
         />
       ) : (
-        <p>Loading or invalid data</p>
+        <p>Cannot retrieve data</p>
       )}
     </div>
   );
