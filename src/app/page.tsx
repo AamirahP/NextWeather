@@ -49,6 +49,16 @@ function App() {
 
       const data = await response.json();
       console.log("Response from OpenWeatherMap:", data);
+      const extractedData = {
+        sunrise: data.sys.sunrise,
+        sunset: data.sys.sunset,
+        feelsLike: data.main.feels_like,
+        maxTemp: data.main.temp_max,
+        minTemp: data.main.temp_min,
+      };
+
+      localStorage.setItem("weatherData", JSON.stringify(extractedData));
+
       setWeatherData(data);
     } catch (error) {
       console.error("Error fetching data:", error);

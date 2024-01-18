@@ -105,3 +105,22 @@ background-image: linear-gradient(180deg, #395da1 0%, #8b80cc 100%);}
   align-items: center;
 
 }
+
+.weather-table {
+  border-collapse: collapse;
+  width: 80%; 
+  margin: auto;
+}
+
+.weather-table th,
+.weather-table td {
+  border: 1px solid #3498db; 
+  padding: 10px;
+  text-align: center;
+}
+
+.weather-table th {
+  background-color: #3498db; 
+  color: white;
+  font-weight: bold;
+}
