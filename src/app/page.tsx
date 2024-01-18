@@ -6,6 +6,21 @@ import Wind from "../Components/Wind";
 import Humidity from "../Components/Humidity";
 import WeatherImage from "../Components/WeatherImage";
 import WeatherDescription from "../Components/WeatherDescription";
+import WeatherInfoTable from "@/Components/WeatherInfoTable";
+
+interface infoProps {
+  params: {
+    main: {
+      feels_like: number;
+      temp_max: number;
+      temp_min: number;
+    };
+    sys: {
+      sunrise: number;
+      sunset: number;
+    };
+  };
+}
 
 interface WeatherData {
   main: {
@@ -49,15 +64,6 @@ function App() {
 
       const data = await response.json();
       console.log("Response from OpenWeatherMap:", data);
-      const extractedData = {
-        sunrise: data.sys.sunrise,
-        sunset: data.sys.sunset,
-        feelsLike: data.main.feels_like,
-        maxTemp: data.main.temp_max,
-        minTemp: data.main.temp_min,
-      };
-
-      localStorage.setItem("weatherData", JSON.stringify(extractedData));
 
       setWeatherData(data);
     } catch (error) {
@@ -70,45 +76,58 @@ function App() {
   }, []);
 
   return (
-    <div className="Container">
-      <SearchBar
-        search={(searchCity?: string) => search(searchCity)}
-        city={city}
-        setCity={setCity}
+    <>
+      <div className="Container">
+        <SearchBar
+          search={(searchCity?: string) => search(searchCity)}
+          city={city}
+          setCity={setCity}
+        />
+
+        {weatherData &&
+          weatherData.main &&
+          weatherData.wind &&
+          weatherData.sys && (
+            <>
+              <WeatherData
+                temperature={Math.round(weatherData.main.temp)}
+                location={weatherData.name}
+              />
+              <p className="info">
+                <a href="http://localhost:3000/main">
+                  {" "}
+                  Click for more info {">"}
+                  {">"}
+                  {">"}
+                </a>
+              </p>
+
+              <div className="weather-image">
+                <WeatherImage iconCode={weatherData?.weather[0].icon} />
+              </div>
+
+              <div className="description">
+                <WeatherDescription
+                  description={weatherData.weather[0].description}
+                />
+              </div>
+
+              <div className="elements">
+                <Wind windSpeed={weatherData.wind.speed} />
+                <Humidity humidity={weatherData.main.humidity} />
+              </div>
+            </>
+          )}
+      </div>
+      <br></br>
+      <WeatherInfoTable
+        sunrise={weatherData?.sys.sunrise || 0}
+        sunset={weatherData?.sys.sunset || 0}
+        minTemp={weatherData?.main.temp_min || 0}
+        maxTemp={weatherData?.main.temp_max || 0}
+        feelsLike={weatherData?.main.feels_like || 0}
       />
-
-      {weatherData && weatherData.main && weatherData.wind && (
-        <>
-          <WeatherData
-            temperature={Math.round(weatherData.main.temp)}
-            location={weatherData.name}
-          />
-          <p className="info">
-            <a href="http://localhost:3000/info">
-              {" "}
-              Click for more info {">"}
-              {">"}
-              {">"}
-            </a>
-          </p>
-
-          <div className="weather-image">
-            <WeatherImage iconCode={weatherData?.weather[0].icon} />
-          </div>
-
-          <div className="description">
-            <WeatherDescription
-              description={weatherData.weather[0].description}
-            />
-          </div>
-
-          <div className="elements">
-            <Wind windSpeed={weatherData.wind.speed} />
-            <Humidity humidity={weatherData.main.humidity} />
-          </div>
-        </>
-      )}
-    </div>
+    </>
   );
 }
 

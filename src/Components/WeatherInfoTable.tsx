@@ -8,13 +8,13 @@ interface WeatherInfo {
   feelsLike: number;
 }
 
-const WeatherInfoTable: React.FC<WeatherInfo> = ({
+const WeatherInfoTable = ({
   sunrise,
   sunset,
   minTemp,
   maxTemp,
   feelsLike,
-}) => {
+}: WeatherInfo) => {
   return (
     <div className="table-container">
       <table className="weather-table">
@@ -25,11 +25,11 @@ const WeatherInfoTable: React.FC<WeatherInfo> = ({
           </tr>
           <tr>
             <td>Sunrise</td>
-            <td>{sunrise}</td>
+            <td>{new Date(sunrise * 1000).toLocaleTimeString()}</td>
           </tr>
           <tr>
             <td>Sunset</td>
-            <td>{sunset}</td>
+            <td>{new Date(sunset * 1000).toLocaleTimeString()}</td>
           </tr>
           <tr>
             <td>Min Temperature</td>
