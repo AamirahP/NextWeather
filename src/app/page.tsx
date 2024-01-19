@@ -51,21 +51,22 @@ function App() {
   const search = async (searchCity?: string) => {
     try {
       const apiUrl = `/api/page?city=${encodeURIComponent(searchCity || city)}`;
-
       console.log("API URL:", apiUrl);
-
+  
       const response = await fetch(apiUrl);
+  
       console.log("Response status:", response.status);
-
+  
       if (!response.ok) {
-        console.error("Failed to fetch data:", response.statusText);
+        const errorMessage = await response.text();
+        console.error(`Failed to fetch data. Server response: ${errorMessage}`);
         return;
       }
-
+  
       const data = await response.json();
       console.log("Response from OpenWeatherMap:", data);
       localStorage.setItem("weatherData", JSON.stringify(data));
-
+  
       setWeatherData(data);
     } catch (error) {
       console.error("Error fetching data:", error);
