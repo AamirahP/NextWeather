@@ -11,7 +11,6 @@ export default async function handler(
     const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${api_key}`;
     const response = await fetch(apiUrl);
     const data = await response.json();
-
     res.status(200).json(data);
   } catch (error) {
     console.error("Error fetching data:", error);

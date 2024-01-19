@@ -6,17 +6,19 @@ import WeatherInfoTable from "@/Components/WeatherInfoTable";
 import { useRouter } from "next/navigation";
 
 interface WeatherData {
+  
   sunrise: number;
   sunset: number;
   feelsLike: number;
   maxTemp: number;
-  minTemp: number;
+  minTemp: number; 
+  
 }
 
 const Page = () => {
   const router = useRouter();
 
-  // Retrieve weather data from local storage
+  
   const weatherDataString = localStorage.getItem("weatherData");
   const weatherData: WeatherData | null = weatherDataString
     ? JSON.parse(weatherDataString)
