@@ -7,6 +7,24 @@ margin: auto;
 border-radius: 12px;
 background-image: linear-gradient(180deg, #395da1 0%, #8b80cc 100%);}
 
+.Paragraph {
+  text-align: center;
+  color: white;
+  font-size: 30px;
+  font-weight: 400;
+  margin-top: 20px;
+}
+
+.SpecialText {
+  font-style: italic;
+  font-family: '', sans-serif; 
+}
+
+.LinkContainer {
+  margin-top: auto; 
+  text-align: center;
+}
+
 
 .topBar {
   display: flex;
