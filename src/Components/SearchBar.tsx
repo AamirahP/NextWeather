@@ -1,18 +1,18 @@
 import { AiOutlineSearch } from "react-icons/ai";
 
 interface Props {
-  search: (searchCity?: string) => void; // Update the search function signature to accept an optional argument
+  search: (searchCity?: string) => void;
   city: string;
   setCity: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const SearchBar: React.FC<Props> = ({ search, city, setCity }) => {
   const handleSearchClick = () => {
-    search(city); // Pass the city value to the search function when the icon is clicked
+    search(city);
   };
 
   const handleCityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCity(e.target.value); // Update city value when the input changes
+    setCity(e.target.value);
   };
 
   return (
@@ -22,7 +22,7 @@ const SearchBar: React.FC<Props> = ({ search, city, setCity }) => {
         className="cityInput"
         placeholder="Search"
         value={city}
-        onChange={handleCityChange} // Update city on input change
+        onChange={handleCityChange}
       />
       <AiOutlineSearch
         className="searchIcon"

@@ -6,11 +6,12 @@ import Wind from "@/Components/Wind";
 import Humidity from "@/Components/Humidity";
 import WeatherImage from "@/Components/WeatherImage";
 import WeatherDescription from "@/Components/WeatherDescription";
-import WeatherInfoTable from "@/Components/WeatherInfoTable";
+
 import Link from "next/link";
+import { fetchWeatherData } from "@/api/page";
+import { useRouter } from "next/navigation";
 
 interface WeatherData {
-  // params: {
   main: {
     temp: number;
     feels_like: number;
@@ -31,40 +32,32 @@ interface WeatherData {
     sunset: number;
   };
 }
-// }
 
 function App() {
-  const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
+  const [weatherData, setWeatherData] = useState(null);
   const [city, setCity] = useState("London");
+  const router = useRouter();
 
   const search = async (searchCity?: string) => {
     try {
-      const apiUrl = `/api/page?city=${encodeURIComponent(searchCity || city)}`;
-      console.log("API URL:", apiUrl);
-
-      const response = await fetch(apiUrl);
-
-      console.log("Response status:", response.status);
-
-      if (!response.ok) {
-        const errorMessage = await response.text();
-        console.error(`Failed to fetch data. Server response: ${errorMessage}`);
-        return;
-      }
-
-      const data = await response.json();
-      console.log("Response from OpenWeatherMap:", data);
-      localStorage.setItem("weatherData", JSON.stringify(data));
-
+      const data = await fetchWeatherData(searchCity || city);
       setWeatherData(data);
-    } catch (error) {
-      console.error("Error fetching data:", error);
+    } catch (error: any) {
+      if (error instanceof Error && error.message) {
+        console.error("Error fetching data:", error.message);
+      } else {
+        console.error("Error fetching data:", error);
+      }
     }
   };
 
   useEffect(() => {
     search();
   }, []);
+
+  const handleMoreInfoClick = () => {
+    router.push(`/main/${encodeURIComponent(weatherData?.name || city)}`);
+  };
 
   return (
     <>
@@ -86,9 +79,10 @@ function App() {
               />
               <Link
                 className="info"
-                href={`/main/data?city=${encodeURIComponent(
+                href={`/main/data?${encodeURIComponent(
                   weatherData?.name || city
                 )}`}
+                onClick={handleMoreInfoClick}
               >
                 Click for more info {">"} {">"} {">"}
               </Link>
@@ -110,14 +104,6 @@ function App() {
             </>
           )}
       </div>
-      <br></br>
-      <WeatherInfoTable
-        sunrise={weatherData?.sys.sunrise || 0}
-        sunset={weatherData?.sys.sunset || 0}
-        minTemp={weatherData?.main.temp_min || 0}
-        maxTemp={weatherData?.main.temp_max || 0}
-        feelsLike={weatherData?.main.feels_like || 0}
-      />
     </>
   );
 }
