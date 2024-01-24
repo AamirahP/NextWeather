@@ -1,5 +1,4 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import WeatherData from "@/Components/WeatherData";
@@ -37,6 +36,7 @@ function App() {
     } catch (error: any) {
       if (error instanceof Error && error.message) {
         console.error("Error fetching data:", error.message);
+        window.alert("Please enter a valid location.");
       } else {
         console.error("Error fetching data:", error);
       }
