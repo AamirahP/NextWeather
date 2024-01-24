@@ -27,7 +27,7 @@ interface WeatherData {
 }
 
 function App() {
-  const [weatherData, setWeatherData] = useState(null);
+  const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
   const [city, setCity] = useState("London");
 
   const search = async (searchCity?: string) => {
@@ -61,41 +61,38 @@ function App() {
           setCity={setCity}
         />
 
-        {weatherData &&
-          weatherData.main &&
-          weatherData.wind &&
-          weatherData.sys && (
-            <>
-              <WeatherData
-                temperature={Math.round(weatherData.main.temp)}
-                location={weatherData.name}
+        {weatherData && weatherData.main && weatherData.wind && (
+          <>
+            <WeatherData
+              temperature={Math.round(weatherData.main.temp)}
+              location={weatherData.name}
+            />
+            <Link
+              className="info"
+              href={`/main/data?name=${encodeURIComponent(
+                weatherData?.name || city
+              )}`}
+              onClick={() => handleMoreInfoClick(weatherData?.name || city)}
+            >
+              Click for more info {">"} {">"} {">"}
+            </Link>
+
+            <div className="weather-image">
+              <WeatherImage iconCode={weatherData?.weather[0].icon} />
+            </div>
+
+            <div className="description">
+              <WeatherDescription
+                description={weatherData.weather[0].description}
               />
-              <Link
-                className="info"
-                href={`/main/data?name=${encodeURIComponent(
-                  weatherData?.name || city
-                )}`}
-                onClick={() => handleMoreInfoClick(weatherData?.name || city)}
-              >
-                Click for more info {">"} {">"} {">"}
-              </Link>
+            </div>
 
-              <div className="weather-image">
-                <WeatherImage iconCode={weatherData?.weather[0].icon} />
-              </div>
-
-              <div className="description">
-                <WeatherDescription
-                  description={weatherData.weather[0].description}
-                />
-              </div>
-
-              <div className="elements">
-                <Wind windSpeed={weatherData.wind.speed} />
-                <Humidity humidity={weatherData.main.humidity} />
-              </div>
-            </>
-          )}
+            <div className="elements">
+              <Wind windSpeed={weatherData.wind.speed} />
+              <Humidity humidity={weatherData.main.humidity} />
+            </div>
+          </>
+        )}
       </div>
     </>
   );

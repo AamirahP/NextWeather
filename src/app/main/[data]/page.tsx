@@ -19,7 +19,9 @@ interface MoreInfoProps {
 }
 
 export default function MoreInfo({ params }: MoreInfoProps) {
-  const [weatherData, setWeatherData] = useState(null);
+  const [weatherData, setWeatherData] = useState<
+    MoreInfoProps["params"] | null
+  >(null);
   const [city, setCity] = useState(params?.name || "London");
 
   const search = async (searchCity?: string) => {
@@ -40,7 +42,7 @@ export default function MoreInfo({ params }: MoreInfoProps) {
   }, []);
 
   useEffect(() => {
-    console.log("City in MoreInfo:", city); // Add this line for debugging
+    console.log("City in MoreInfo:", city);
   }, [city]);
 
   return (
