@@ -1,23 +1,20 @@
 "use client";
+
 import { useEffect, useState } from "react";
-import SearchBar from "@/Components/SearchBar";
+import Link from "next/link";
 import WeatherData from "@/Components/WeatherData";
-import Wind from "@/Components/Wind";
-import Humidity from "@/Components/Humidity";
+import SearchBar from "@/Components/SearchBar";
 import WeatherImage from "@/Components/WeatherImage";
 import WeatherDescription from "@/Components/WeatherDescription";
-
-import Link from "next/link";
+import Wind from "@/Components/Wind";
+import Humidity from "@/Components/Humidity";
 import { fetchWeatherData } from "@/api/page";
-import { useRouter } from "next/navigation";
 
 interface WeatherData {
   main: {
     temp: number;
-    feels_like: number;
+
     humidity: number;
-    temp_max: number;
-    temp_min: number;
   };
   name: string;
   wind: {
@@ -27,16 +24,11 @@ interface WeatherData {
     icon: string;
     description: string;
   }[];
-  sys: {
-    sunrise: number;
-    sunset: number;
-  };
 }
 
 function App() {
   const [weatherData, setWeatherData] = useState(null);
   const [city, setCity] = useState("London");
-  const router = useRouter();
 
   const search = async (searchCity?: string) => {
     try {
@@ -55,8 +47,9 @@ function App() {
     search();
   }, []);
 
-  const handleMoreInfoClick = () => {
-    router.push(`/main/${encodeURIComponent(weatherData?.name || city)}`);
+  const handleMoreInfoClick = (searchCity?: string) => {
+    setCity(searchCity || city);
+    search(searchCity);
   };
 
   return (
@@ -79,10 +72,10 @@ function App() {
               />
               <Link
                 className="info"
-                href={`/main/data?${encodeURIComponent(
+                href={`/main/data?name=${encodeURIComponent(
                   weatherData?.name || city
                 )}`}
-                onClick={handleMoreInfoClick}
+                onClick={() => handleMoreInfoClick(weatherData?.name || city)}
               >
                 Click for more info {">"} {">"} {">"}
               </Link>
