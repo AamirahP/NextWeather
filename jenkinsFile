@@ -21,16 +21,16 @@ pipeline {
                 }
             }
        
-         stage ('Sonarqube Analysis') {
-            steps {
-                script {
-                    def scannerHome = tool 'SonarQube';
-                    withSonarQubeEnv('Aamirah Sonarcloud') {
-                        sh "${scannerHome}/bin/sonar-scanner"
-                    }
-                }
-            }
-        }
+        //  stage ('Sonarqube Analysis') {
+        //     steps {
+        //         script {
+        //             def scannerHome = tool 'SonarQube';
+        //             withSonarQubeEnv('Aamirah Sonarcloud') {
+        //                 sh "${scannerHome}/bin/sonar-scanner"
+        //             }
+        //         }
+        //     }
+        // }
         
         
         stage('Clone and Pull Repository') {
