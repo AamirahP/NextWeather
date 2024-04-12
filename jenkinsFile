@@ -42,25 +42,17 @@ pipeline {
                 }
             }
         }
-        stage('Start Backend') {
+        stage('Start NextJS app') {
             steps {
                 script {
                     sshagent(['Aamirah-ssh']) {
-                        sh 'ssh -o StrictHostKeyChecking=no ec2-user@54.91.82.93 "cd backend && npm install && node backend.ts"'
+                        sh 'ssh -o StrictHostKeyChecking=no ec2-user@54.91.82.93 "npm install  && sudo npm run dev -- -p 80 -H 0.0.0.0"'
                     }
                 }
             }
         }
         
-        stage('Start Frontend') {
-            steps {
-                script {
-                    sshagent(['Aamirah-ssh']) {
-                        sh 'ssh -o StrictHostKeyChecking=no ec2-user@54.91.82.93 "sudo npm run dev -- -p 80 -H 0.0.0.0"'
-                    }
-                }
-            }
-        }
+        
     }
 
 }
