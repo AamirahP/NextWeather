@@ -32,7 +32,6 @@ pipeline {
             }
         }
         
-        
         stage('Pull Repository') {
             steps {
                 script {
