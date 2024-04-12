@@ -32,7 +32,7 @@ pipeline {
         //     }
         // }
         
-        stages {
+        
         stage('Clone and Pull Repository') {
             steps {
                 script {
@@ -63,5 +63,4 @@ pipeline {
         }
     }
 
-    }
 }
