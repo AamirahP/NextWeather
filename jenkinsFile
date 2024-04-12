@@ -21,16 +21,16 @@ pipeline {
                 }
             }
        
-        //  stage ('Sonarqube Analysis') {
-        //     steps {
-        //         script {
-        //             def scannerHome = tool 'SonarQube';
-        //             withSonarQubeEnv('Aamirah Sonarcloud') {
-        //                 sh "${scannerHome}/bin/sonar-scanner"
-        //             }
-        //         }
-        //     }
-        // }
+         stage ('Sonarqube Analysis') {
+            steps {
+                script {
+                    def scannerHome = tool 'SonarQube';
+                    withSonarQubeEnv('Aamirah Sonarcloud') {
+                        sh "${scannerHome}/bin/sonar-scanner"
+                    }
+                }
+            }
+        }
         
         
         stage('Pull Repository') {
@@ -42,16 +42,16 @@ pipeline {
                 }
             }
         }
-        stage('Start NextJS app') {
-            steps {
-                script {
-                    sshagent(['Aamirah-ssh']) {
-                        sh 'ssh -o StrictHostKeyChecking=no ubuntu@54.91.82.93 "cd NextWeather && npm install && sudo npm run dev -- -p 80 -H 0.0.0.0"'
+        // stage('Start NextJS app') {
+        //     steps {
+        //         script {
+        //             sshagent(['Aamirah-ssh']) {
+        //                 sh 'ssh -o StrictHostKeyChecking=no ubuntu@54.91.82.93 "cd NextWeather && npm install && sudo npm run dev -- -p 80 -H 0.0.0.0"'
 
-                    }
-                }
-            }
-        }
+        //             }
+        //         }
+        //     }
+        // }
         
         
     }
