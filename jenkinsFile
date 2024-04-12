@@ -47,7 +47,7 @@ pipeline {
                 script {
                     sshagent(['Aamirah-ssh']) {
                         sh 'ssh -o StrictHostKeyChecking=no ubuntu@54.91.82.93 "cd NextWeather && npm install && sudo npm run dev -- -p 80 -H 0.0.0.0"'
-'
+
                     }
                 }
             }
