@@ -1,4 +1,3 @@
-import { error } from "console";
 import { fetchWeatherData } from "../src/api/page";
 
 describe("fetchWeatherData", () => {
