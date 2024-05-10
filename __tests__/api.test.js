@@ -1,4 +1,6 @@
+import { afterEach, beforeEach, describe, it } from "node:test";
 import { fetchWeatherData } from "../src/api/page";
+import { expect } from "@playwright/test";
 
 describe("fetchWeatherData", () => {
   beforeEach(() => {
