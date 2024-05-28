@@ -34,3 +34,34 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+# WeatherApp
+
+## Description
+WeatherApp is a Next.js application that provides current weather information for a specified location using the OpenWeather API. It displays temperature, humidity, wind speed, and weather conditions in a user-friendly interface. The app is designed for practicing and learning modern web development technologies including Next.js, JavaScript, Docker, and Jest for testing.
+
+## Features
+- Fetch and display current weather conditions
+- Show temperature, humidity, wind speed, and weather description
+- Responsive design for various devices
+- Search bar to find weather information for different locations
+- Links to different pages within the app
+- Dynamic and normal routing
+
+## Technologies Used
+- Next.js
+- JavaScript
+- Jenkins
+- Docker
+- Jest (for testing)
+- OpenWeather API
+
+## Usage
+- **Search:** Use the search bar to enter the name of a city. The app will display the current weather information for the specified location, including temperature, humidity, and wind speed.
+- **Navigation:** Use the links to navigate to different pages within the app. The app uses both dynamic and normal routing to provide a seamless user experience.
+
+## Running Tests
+To run the tests using Jest, use the following command:
+```sh
+npm run test
+
